@@ -38,6 +38,9 @@ $usuario = "$env:USERDOMAIN\$env:USERNAME"
 if (-not (Test-Path (Join-Path $raiz 'node_modules'))) {
     throw "Falta instalar las dependencias: corre 'npm install' en $raiz antes de instalar el inicio automatico."
 }
+if (-not (Test-Path (Join-Path $raiz 'dist\index.js'))) {
+    throw "Falta compilar el agente: corre 'npm run build' en $raiz antes de instalar el inicio automatico (el lanzador corre la version compilada, no 'npm run dev')."
+}
 
 $argumentos = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$lanzador`" -Npm `"$npm`""
 $accion = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $argumentos -WorkingDirectory $raiz

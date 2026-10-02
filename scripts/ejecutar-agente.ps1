@@ -5,6 +5,10 @@
 # - Nunca abre un segundo agente: dos agentes a la vez imprimirian cada etiqueta
 #   duplicada. Si ya hay uno corriendo (por ejemplo abierto a mano con "npm run dev"),
 #   espera a que ese termine y recien entonces toma su lugar.
+# - Corre la version compilada (npm run start / dist\index.js), no "npm run dev": dev
+#   usa tsx para transpilar TypeScript al vuelo en cada arranque, que es el flujo
+#   pensado para desarrollo, no para producción corriendo desatendido. Si falta el
+#   build, se detiene con un mensaje claro en vez de arrastrar el problema al log.
 #
 # Lo arranca la tarea programada que crea instalar-inicio-automatico.ps1; tambien se
 # puede probar a mano:  powershell -ExecutionPolicy Bypass -File scripts\ejecutar-agente.ps1
@@ -37,6 +41,12 @@ function AgenteCorriendo {
     return $false
 }
 
+$distIndex = Join-Path $raiz 'dist\index.js'
+if (-not (Test-Path $distIndex)) {
+    Escribir "Falta el build ($distIndex no existe). Corre 'npm run build' en $raiz antes de iniciar el agente."
+    throw "Falta el build: corre 'npm run build' en $raiz antes de iniciar el agente."
+}
+
 Escribir 'Lanzador iniciado.'
 
 while ($true) {
@@ -53,7 +63,7 @@ while ($true) {
     Escribir 'Arrancando el agente.'
     # cmd se encarga de juntar stdout y stderr en el mismo archivo (en PowerShell 5.1
     # redirigir el stderr de un programa nativo lo convierte en errores falsos).
-    cmd.exe /c "`"$Npm`" run dev >> `"$log`" 2>&1"
+    cmd.exe /c "`"$Npm`" run start >> `"$log`" 2>&1"
     Escribir ('El agente se detuvo (codigo {0}). Se reinicia en 10 segundos.' -f $LASTEXITCODE)
     Start-Sleep -Seconds 10
 }
