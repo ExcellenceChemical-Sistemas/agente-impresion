@@ -6,8 +6,17 @@ function requerida(nombre: string): string {
   return valor;
 }
 
+function backendUrl(): string {
+  const valor = requerida('BACKEND_URL');
+  // AGENT_TOKEN va en el header x-agent-token en cada request: con http:// viajaría en claro.
+  if (!valor.startsWith('https://') && !valor.startsWith('http://localhost') && !valor.startsWith('http://127.0.0.1')) {
+    throw new Error(`BACKEND_URL debe usar https:// (o apuntar a localhost para desarrollo): "${valor}"`);
+  }
+  return valor;
+}
+
 export const CONFIG = {
-  backendUrl: requerida('BACKEND_URL'),
+  backendUrl: backendUrl(),
   agentToken: requerida('AGENT_TOKEN'),
   printerName: process.env.EPSON_PRINTER_NAME ?? 'EPSON TM-C3500 Ver2',
   paperSize: process.env.EPSON_PAPER_SIZE ?? 'Mate Brilloso 10x8.5 cm',
