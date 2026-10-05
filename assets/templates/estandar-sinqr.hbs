@@ -41,7 +41,7 @@
       
       <div class='a' style='left:100px; right:96px; top:300px; height:4px; background:#F4610B'></div>
       <div class='a' style='left:114px; top:322px; width:320px'><div class='k'>FABRICANTE</div><div class='v'>{{fabricante}}</div></div>
-      <div class='a' style='left:454px; top:322px; width:320px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
+      <div class='a' style='left:{{#if hayProforma}}454{{else}}624{{/if}}px; top:322px; width:320px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
       {{#if hayProforma}}<div class='a' style='left:794px; top:322px; width:320px'><div class='k'>N° PROFORMA</div><div class='v'>{{proforma}}</div></div>{{/if}}
       <div class='a' style='left:1134px; top:322px; width:320px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
       <div class='a' style='left:114px; top:470px; width:320px'><div class='k'>F. FABRICACIÓN</div><div class='v'>{{fechaFabricacion}}</div></div>
