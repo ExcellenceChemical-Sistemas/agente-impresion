@@ -16,7 +16,11 @@
       }
       .etiqueta { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; }
       .marco { position: absolute; left: 64px; top: 36px; right: 60px; bottom: 28px; border: 6px solid #1B2B5B; border-radius: 16px; }
-      .esc { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform: scale(0.96); transform-origin: 64px 36px; }
+      /* A diferencia de estandar.hbs: acá se achica fuerte y se ancla a la
+         esquina superior izquierda (mismo transform-origin que el marco),
+         para que la muestra salga chica y esquinada como antes, con el
+         resto del papel en blanco. */
+      .esc { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform: scale(0.62); transform-origin: 64px 36px; }
       .a { position: absolute; }
       .k { font-size: 28px; font-weight: 700; color: #1B2B5B; white-space: nowrap; letter-spacing: 0.5px; }
       .v { margin-top: 6px; height: 92px; overflow: hidden; font-size: 42px; line-height: 1.1; font-weight: 700; color: #111; }
@@ -42,8 +46,7 @@
       <div class='a' style='left:100px; right:96px; top:300px; height:4px; background:#F4610B'></div>
       <div class='a' style='left:114px; top:322px; width:320px'><div class='k'>FABRICANTE</div><div class='v'>{{fabricante}}</div></div>
       <div class='a' style='left:454px; top:322px; width:320px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
-      <div class='a' style='left:794px; top:322px; width:320px'><div class='k'>N° PROFORMA</div><div class='v'>{{proforma}}</div></div>
-      <div class='a' style='left:1134px; top:322px; width:320px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
+      <div class='a' style='left:794px; top:322px; width:320px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
       <div class='a' style='left:114px; top:470px; width:320px'><div class='k'>F. FABRICACIÓN</div><div class='v'>{{fechaFabricacion}}</div></div>
       <div class='a' style='left:454px; top:470px; width:320px'><div class='k'>F. VENCIMIENTO</div><div class='v'>{{fechaVencimiento}}</div></div>
       <div class='a' style='left:794px; top:470px; width:320px'><div class='k'>TARA</div><div class='v'>{{tara}} {{unidadBrutoLabel}}</div></div>
