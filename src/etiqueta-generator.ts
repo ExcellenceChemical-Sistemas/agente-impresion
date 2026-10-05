@@ -14,8 +14,6 @@ const ALTO_MM_DEFAULT = 85;
 // su propio papel del driver, porque el papel decide el tamaño físico real.
 const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   'blanco.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'estandar-sinqr.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'con-rombo-sinqr.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar-clasico-60.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'con-rombo.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },

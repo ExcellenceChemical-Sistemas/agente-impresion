@@ -35,8 +35,6 @@ const casos = [
   { archivo: 'muestras.hbs', salida: 'muestras.png' },
   { archivo: 'estandar-85.hbs', salida: 'estandar-85.png' },
   { archivo: 'con-rombo-85.hbs', salida: 'con-rombo-85.png' },
-  { archivo: 'estandar-sinqr.hbs', salida: 'estandar-sinqr.png' },
-  { archivo: 'con-rombo-sinqr.hbs', salida: 'con-rombo-sinqr.png' },
 ];
 
 (async () => {
