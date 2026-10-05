@@ -23,5 +23,10 @@ export const CONFIG = {
   // Papel de la etiqueta blanca, que conserva el formato original de 10x6 cm.
   paperSizeQr: process.env.EPSON_PAPER_SIZE_QR ?? 'Mate Brilloso 10x7.5 cm',
   paperSizeBlanco: process.env.EPSON_PAPER_SIZE_BLANCO ?? 'Mate Brilloso 10x6 cm',
+  // Papel chico de la etiqueta de muestras (10x3 cm). Debe existir con este
+  // nombre exacto como tamaño de papel personalizado en el driver de Windows
+  // de la impresora: si no existe, imprimir-etiqueta.ps1 falla listando los
+  // nombres de papel disponibles en esa máquina.
+  paperSizeMuestras: process.env.EPSON_PAPER_SIZE_MUESTRAS ?? 'Mate Brilloso 10x3 cm',
   pollIntervalMs: Number(process.env.POLL_INTERVAL_MS ?? 3000),
 };

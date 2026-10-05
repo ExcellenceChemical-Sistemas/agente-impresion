@@ -19,7 +19,7 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   'estandar-clasico-60.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'con-rombo.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'muestras.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  'muestras.hbs': { heightMm: 30, paperSize: CONFIG.paperSizeMuestras },
   'estandar-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
   'con-rombo-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
 };
