@@ -145,6 +145,11 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
     nfpaReactividad: etiqueta.nfpaReactividad ?? 0,
     qrDataUrl,
     coaValidado: !!etiqueta.coaValidado,
+    // proforma llega como " " (un espacio) cuando el formulario usa "En
+    // blanco (muestra)", para pasar la validación del backend sin tener un
+    // número real — así que un {{#if proforma}} crudo no alcanza para
+    // ocultar el campo. hayProforma hace el trim acá, una sola vez.
+    hayProforma: !!etiqueta.proforma?.trim(),
     logoBase64: getLogoBase64(),
     unidadNetoLabel: UNIDAD_TXT[etiqueta.unidadNeta] ?? etiqueta.unidadNeta,
     unidadBrutoLabel: UNIDAD_TXT[etiqueta.unidadBruto] ?? etiqueta.unidadBruto,

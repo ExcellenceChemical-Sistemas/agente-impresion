@@ -162,7 +162,7 @@
     <div class="campo-fecha-fab"><span class="label">FECHA FAB:</span> {{fechaFabricacion}}</div>
     <div class="campo-fecha-venc"><span class="label">FECHA VENC:</span> {{fechaVencimiento}}</div>
 
-    <div class="campo-proforma">{{proforma}}</div>
+    {{#if hayProforma}}<div class="campo-proforma">{{proforma}}</div>{{/if}}
   </div>
 </body>
   <script>
