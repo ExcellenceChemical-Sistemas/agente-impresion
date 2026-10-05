@@ -4,297 +4,75 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      {{#if fontBase64}}
-      @font-face {
-        font-family: 'Selawik';
-        src: url('data:font/truetype;base64,{{{fontBase64}}}') format('truetype');
-        font-weight: normal;
-      }
-      @font-face {
-        font-family: 'Selawik';
-        src: url('data:font/truetype;base64,{{{fontBoldBase64}}}') format('truetype');
-        font-weight: bold;
-      }
-      {{/if}}
-
+      /* De muestras: mismo diseño que estandar.hbs (10x6 cm, 1531x851 px a 360 dpi), etiqueta física más chica. HTML/CSS puro, solo px. Margenes de seguridad: la impresora corta el borde superior y el derecho. */
       body {
-        width:{{widthPx}}px;
-          height:{{heightPx}}px;
-          font-family: {{#if fontBase64}}'Selawik', {{/if}}'Segoe UI', {{{fallbackFontFamily}}};
-        }
-
-        .etiqueta {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          background-image: url('data:image/png;base64,{{{fondoBase64}}}');
-          background-size: 100% 100%;
-          background-repeat: no-repeat;
-          overflow: hidden;
-        }
-
-        /* Campos comprimidos dentro de la esquina superior izquierda
-           (única zona con diseño; el resto del lienzo es para recortar).
-           Valores de partida escalados ~0.36x respecto a estandar.hbs —
-           ajustar tras imprimir y recortar una prueba real. */
-
-        .campo-producto {
-          position: absolute;
-          overflow: hidden;
-          top: 8.46%;
-          left: 12%;
-          right: 53%;
-          height: 4.87%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          color: #1a1a1a;
-          font-size: 26.5px;
-          line-height: 1.05;
-          font-weight: 700;
-          text-transform: uppercase;
-          white-space: normal;
-        }
-
-        /*
-          GRID DE 2 COLUMNAS FIJO: columna 1 va de 5% a 24.5% (ancho
-          ~19.5%), columna 2 va de 25.5% a 95% (right:5%), con 1% de
-          margen entre ambas. Layout SIEMPRE igual sin importar el
-          contenido — ya no depende de JS para calcular su posición,
-          así LOTE/FABRICANTE, PESO NETO/PESO BRUTO y FECHA FAB/FECHA
-          VENC quedan perfectamente alineados entre sí siempre. Si el
-          texto no entra en su columna, en vez de truncarlo o
-          desalinear el layout, se reduce su font-size automáticamente
-          (ver ajustarFuenteCampo() en el script).
-        */
-        .campo-qr {
-          position: absolute;
-          top: 36%;
-          left: 28%;
-          width: 18%;
-          height: 22.9%;
-        }
-        .campo-qr img {
-          width: 100%;
-          height: 100%;
-        }
-
-        .campo-lote {
-          position: absolute;
-          top: 15.51%;
-          left: 5%;
-          right: 75.5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-fabricante {
-          position: absolute;
-          top: 15.51%;
-          left: 25.5%;
-          right: 5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-peso-neto {
-          position: absolute;
-          top: 19.39%;
-          left: 5%;
-          right: 75.5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-peso-bruto {
-          position: absolute;
-          top: 19.39%;
-          left: 25.5%;
-          right: 5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-tara {
-          position: absolute;
-          top: 60%;
-          left: 5%;
-          right: 75.5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-.campo-envase {
-          position: absolute;
-          top: 66%;
-          left: 5%;
-          right: 75.5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-fecha-fab {
-          position: absolute;
-          top: 22.91%;
-          left: 5%;
-          right: 75.5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-fecha-venc {
-          position: absolute;
-          top: 22.91%;
-          left: 25.5%;
-          right: 5%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #111;
-          white-space: nowrap;
-          overflow: hidden;
-        }
-
-        .campo-proforma {
-          position: absolute;
-          top: 28.9%;
-          left: 31%;
-          font-size: 24px;
-          font-weight: 700;
-          color: #1a1a1a;
-        }
-
-        .campo span.label {
-          font-weight: 800;
-        }
+        width: {{widthPx}}px;
+        height: {{heightPx}}px;
+        font-family: 'Segoe UI', {{{fallbackFontFamily}}};
+        font-weight: 700;
+        color: #111;
+        background: #fff;
+        overflow: hidden;
+      }
+      .etiqueta { position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff; }
+      .marco { position: absolute; left: 64px; top: 36px; right: 60px; bottom: 28px; border: 6px solid #1B2B5B; border-radius: 16px; }
+      .esc { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform: scale(0.96); transform-origin: 64px 36px; }
+      .a { position: absolute; }
+      .k { font-size: 28px; font-weight: 700; color: #1B2B5B; white-space: nowrap; letter-spacing: 0.5px; }
+      .v { margin-top: 6px; height: 92px; overflow: hidden; font-size: 42px; line-height: 1.1; font-weight: 700; color: #111; }
+      .titulo { display: flex; align-items: center; overflow: hidden; line-height: 1.05; font-weight: 700; text-transform: uppercase; color: #111; }
+      .ct { display: flex; align-items: center; gap: 18px; white-space: nowrap; overflow: hidden; font-weight: 600; color: #111; }
+      .ct svg { flex: none; color: #1B2B5B; width: 1.1em; height: 1.1em; }
+      .apr { color: #2E7D32; font-weight: 800; white-space: nowrap; text-align: center; }
+      .check { display: block; }
+      .qr img { width: 100%; height: 100%; display: block; }
+      .cap { font-size: 26px; font-weight: 400; color: #555; text-align: center; white-space: nowrap; }
+      .rombo text { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 46px; text-anchor: middle; dominant-baseline: central; }
+      .lg { display: block; }
     </style>
   </head>
   <body>
     <div class='etiqueta'>
-      <div class='campo-producto'>{{producto}}</div>
+    <div class='esc'>
+      <div class='marco'></div>
+      <img class='a lg' style='left:114px; top:76px; width:290px' src='data:image/png;base64,{{{logoBase64}}}' />
+      <div class='a k' style='left:464px; top:76px; font-size:30px'>PRODUCTO</div>
+      <div class='a titulo' id='producto' style='left:464px; top:118px; width:960px; height:130px; font-size:84px'>{{producto}}</div>
 
-      <div class='campo-lote'><span class='label'>LOTE:</span>
-        <span class='valor' id='valor-lote'>{{numeroLote}}</span></div>
-      <div class='campo-fabricante'><span class='label'>FABRICANTE:</span>
-        <span class='valor' id='valor-fabricante'>{{fabricante}}</span></div>
-
-      <div class='campo-peso-neto'><span class='label'>{{labelNeto}}:</span>
-        {{pesoNeto}}
-        {{unidadNeto}}</div>
-      <div class='campo-peso-bruto'><span class='label'>PESO BRUTO:</span>
-        {{pesoBruto}}
-        {{unidadBruto}}</div>
-
-      <div class='campo-fecha-fab'><span class='label'>FECHA FAB:</span>
-        {{fechaFabricacion}}</div>
-      <div class='campo-fecha-venc'><span class='label'>FECHA VENC:</span>
-        {{fechaVencimiento}}</div>
-
-      <div class='campo-tara'><span class='label'>TARA:</span>
-        {{tara}}
-        {{unidadBruto}}</div>
-
-      {{#if qrDataUrl}}
-        <div class='campo-qr'><img src='{{{qrDataUrl}}}' /></div>
-      {{/if}}
-
-      {{#if proforma}}
-        <div class='campo-proforma'>{{proforma}}</div>
-      {{/if}}
+      <div class='a' style='left:100px; right:96px; top:300px; height:4px; background:#F4610B'></div>
+      <div class='a' style='left:114px; top:322px; width:320px'><div class='k'>FABRICANTE</div><div class='v'>{{fabricante}}</div></div>
+      <div class='a' style='left:454px; top:322px; width:320px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
+      <div class='a' style='left:794px; top:322px; width:320px'><div class='k'>N° PROFORMA</div><div class='v'>{{proforma}}</div></div>
+      <div class='a' style='left:1134px; top:322px; width:320px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
+      <div class='a' style='left:114px; top:470px; width:320px'><div class='k'>F. FABRICACIÓN</div><div class='v'>{{fechaFabricacion}}</div></div>
+      <div class='a' style='left:454px; top:470px; width:320px'><div class='k'>F. VENCIMIENTO</div><div class='v'>{{fechaVencimiento}}</div></div>
+      <div class='a' style='left:794px; top:470px; width:320px'><div class='k'>TARA</div><div class='v'>{{tara}} {{unidadBrutoLabel}}</div></div>
+      <div class='a' style='left:1134px; top:470px; width:320px'><div class='k'>{{labelNeto}}</div><div class='v'>{{pesoNeto}} {{unidadNetoLabel}}</div></div>
+      <div class='a' style='left:100px; right:96px; top:612px; height:3px; background:#C9CDD6'></div>
+      <div class='a ct' style='left:114px; top:660px; width:520px; height:48px; font-size:34px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg><span>943 598 055</span></div>
+      <div class='a ct' style='left:114px; top:718px; width:620px; height:48px; font-size:34px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='16' x='2' y='4' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg><span>ventas@excellencechemical.com</span></div>
+      <div class='a' style='left:694px; top:672px; display:flex; align-items:center; gap:20px'><svg class='check' style='width:78px;height:78px' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='#2E7D32'/><polyline points='27,52 43,68 73,34' fill='none' stroke='#fff' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg><span class='apr' style='font-size:44px'>APROBADO</span></div>
+      <div class='a qr' style='left:1284px; top:628px; width:160px; height:160px'>{{#if coaValidado}}{{#if qrDataUrl}}<img src='{{{qrDataUrl}}}' />{{/if}}{{/if}}</div>
     </div>
+    </div>
+
+    <script>
+      /* Auto-ajuste sin truncar: baja el font-size hasta que el texto entre en su caja. */
+      function ajustar(el, max, min, paso, soloAncho) {
+        if (!el) return;
+        var fs = max;
+        el.style.fontSize = fs + 'px';
+        while ((el.scrollWidth > el.clientWidth + 1 || (!soloAncho && el.scrollHeight > el.clientHeight + 1)) && fs > min) {
+          fs -= paso;
+          el.style.fontSize = fs + 'px';
+        }
+      }
+      window.ajustarNombreProducto = function () {
+        ajustar(document.getElementById('producto'), 84, 36, 2);
+        document.querySelectorAll('.v').forEach(function (el) { ajustar(el, 42, 24, 2); });
+        document.querySelectorAll('.ct').forEach(function (el) { ajustar(el, 34, 22, 1, true); });
+      };
+      window.ajustarNombreProducto();
+    </script>
   </body>
-  <script>
-
-    /*
-      Auto-ajuste de fuente SIN truncar: cada fila (LOTE, FABRICANTE,
-      PESO NETO, PESO BRUTO, FECHA FAB, FECHA VENC) vive en una
-      columna de ancho FIJO por CSS (ver .campo-lote, .campo-fabricante,
-      etc). Si el texto no entra en ese ancho a la fuente máxima, se
-      reduce el font-size del propio elemento paso a paso hasta que
-      quepa entero en una sola línea (scrollWidth <= clientWidth).
-      Nunca se corta texto y el layout de 2 columnas nunca se mueve,
-      sin importar qué tan largo sea un LOTE o un FABRICANTE.
-    */
-    function ajustarFuenteCampo(el, fuenteMax, fuenteMin, paso) {
-      if (!el) return;
-      var fontSize = fuenteMax;
-      el.style.fontSize = fontSize + 'px';
-      while (el.scrollWidth > el.clientWidth && fontSize > fuenteMin) {
-        fontSize -= paso;
-        el.style.fontSize = fontSize + 'px';
-      }
-    }
-    function ajustarFilasDatos() {
-      var FUENTE_MAX = 24, FUENTE_MIN = 12, PASO = 1;
-      [
-        '.campo-lote',
-        '.campo-fabricante',
-        '.campo-peso-neto',
-        '.campo-peso-bruto',
-        '.campo-fecha-fab',
-        '.campo-fecha-venc',
-        '.campo-tara'
-      ].forEach(function (selector) {
-        ajustarFuenteCampo(document.querySelector(selector), FUENTE_MAX, FUENTE_MIN, PASO);
-      });
-    }
-  function ajustarNombreProducto() {
-    var el = document.querySelector('.campo-producto');
-    if (!el) return;
-
-    var maxFontSize = 32;   // pon aquí el font-size que ya tienes en tu CSS
-    var minFontSize = 14;
-    var maxLineas = 2;      // nunca más de 2 líneas
-    var textoOriginal = el.textContent.trim();
-
-    function altoLinea(fontSize) {
-      return fontSize * 1.05; // debe coincidir con tu line-height
-    }
-
-    function caveEnDosLineas(fontSize) {
-      el.style.fontSize = fontSize + 'px';
-      var altoMax = altoLinea(fontSize) * maxLineas + 2;
-      return el.scrollHeight <= altoMax;
-    }
-
-    el.textContent = textoOriginal;
-    var fontSize = maxFontSize;
-    while (fontSize > minFontSize && !caveEnDosLineas(fontSize)) {
-      fontSize -= 1;
-    }
-    el.style.fontSize = fontSize + 'px';
-
-    if (!caveEnDosLineas(fontSize)) {
-      var texto = textoOriginal;
-      while (texto.length > 1 && !caveEnDosLineas(fontSize)) {
-        texto = texto.slice(0, -1);
-        el.textContent = texto.trim() + '…';
-      }
-    }
-  }
-
-    ajustarNombreProducto();
-  ajustarFilasDatos();
-</script>
 </html>

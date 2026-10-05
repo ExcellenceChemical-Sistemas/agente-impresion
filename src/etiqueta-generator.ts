@@ -19,6 +19,7 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   'estandar-clasico-60.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'con-rombo.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  'muestras.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   'estandar-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
   'con-rombo-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
 };
@@ -43,7 +44,8 @@ const FONDOS: Record<string, string> = {
   'con-rombo.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-rombo-85mm.png'),
   'blanco.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-blanco.png'), // original de 60mm
   'estandar-clasico-60.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-clasico-60.png'), // estandar original 10x6
-  'muestras.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-muestras-85mm.png'),
+  // muestras.hbs ya no usa fondo de imagen: ahora comparte el diseño de
+  // estandar.hbs (marco/logo dibujados en CSS), cae al FONDO_DEFAULT sin uso real.
 };
 const FONDO_DEFAULT = path.join(ASSETS_DIR, 'etiqueta-fondo-85mm.png');
 
