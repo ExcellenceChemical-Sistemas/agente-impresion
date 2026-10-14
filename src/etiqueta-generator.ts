@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as Handlebars from 'handlebars';
-import puppeteer, { Browser } from 'puppeteer';
-import * as QRCode from 'qrcode';
+import * as fs from "fs";
+import * as path from "path";
+import * as Handlebars from "handlebars";
+import puppeteer, { Browser } from "puppeteer";
+import * as QRCode from "qrcode";
 
-import { CONFIG } from './config';
+import { CONFIG } from "./config";
 
 const ETIQUETA_LABEL_CONFIG = { widthMm: 108, dpi: 360 };
 const ALTO_MM_DEFAULT = 85;
@@ -13,39 +13,52 @@ const ALTO_MM_DEFAULT = 85;
 // (60 mm de alto, sin QR/tara); el resto usa 85 mm. Cada formato lleva
 // su propio papel del driver, porque el papel decide el tamaño físico real.
 const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
-  'blanco.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'estandar-clasico-60.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'estandar.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'con-rombo.hbs': { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
-  'muestras.hbs': { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
-  'estandar-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
-  'con-rombo-85.hbs': { heightMm: 85, paperSize: CONFIG.paperSize },
+  "blanco.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "estandar-clasico-60.hbs": {
+    heightMm: 60,
+    paperSize: CONFIG.paperSizeBlanco,
+  },
+  "estandar.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "con-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
+  "estandar-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
+  "con-rombo-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
+  "estandar-sinqr.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "estandar-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
 };
 
 export function formatoDe(archivo: string) {
-  const f = FORMATOS[archivo] ?? { heightMm: ALTO_MM_DEFAULT, paperSize: CONFIG.paperSize };
+  const f = FORMATOS[archivo] ?? {
+    heightMm: ALTO_MM_DEFAULT,
+    paperSize: CONFIG.paperSize,
+  };
   return {
     paperSize: f.paperSize,
-    width: Math.round((ETIQUETA_LABEL_CONFIG.widthMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi),
+    width: Math.round(
+      (ETIQUETA_LABEL_CONFIG.widthMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi,
+    ),
     height: Math.round((f.heightMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi),
   };
 }
 
-const ASSETS_DIR = path.join(__dirname, '..', 'assets');
-const TEMPLATES_DIR = path.join(ASSETS_DIR, 'templates');
+const ASSETS_DIR = path.join(__dirname, "..", "assets");
+const TEMPLATES_DIR = path.join(ASSETS_DIR, "templates");
 
 // Fondos "-85mm": placeholder generado por código a partir de los originales
 // de 60mm (ver scripts/generar-fondos-85mm.ts) — mismo arte, con una banda
 // vacía insertada para el alto nuevo. Reemplazar por el arte real de
 // Illustrator cuando esté listo (mismas dimensiones: 1531x1205px).
 const FONDOS: Record<string, string> = {
-  'con-rombo.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-rombo-85mm.png'),
-  'blanco.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-blanco.png'), // original de 60mm
-  'estandar-clasico-60.hbs': path.join(ASSETS_DIR, 'etiqueta-fondo-clasico-60.png'), // estandar original 10x6
+  "con-rombo.hbs": path.join(ASSETS_DIR, "etiqueta-fondo-rombo-85mm.png"),
+  "blanco.hbs": path.join(ASSETS_DIR, "etiqueta-fondo-blanco.png"), // original de 60mm
+  "estandar-clasico-60.hbs": path.join(
+    ASSETS_DIR,
+    "etiqueta-fondo-clasico-60.png",
+  ), // estandar original 10x6
   // muestras.hbs ya no usa fondo de imagen: ahora comparte el diseño de
   // estandar.hbs (marco/logo dibujados en CSS), cae al FONDO_DEFAULT sin uso real.
 };
-const FONDO_DEFAULT = path.join(ASSETS_DIR, 'etiqueta-fondo-85mm.png');
+const FONDO_DEFAULT = path.join(ASSETS_DIR, "etiqueta-fondo-85mm.png");
 
 export interface EtiquetaParaRenderizar {
   producto: string;
@@ -66,11 +79,17 @@ export interface EtiquetaParaRenderizar {
   coaValidado?: boolean | null;
 }
 
-const UNIDAD_TXT: Record<string, string> = { KG: 'kg', GR: 'g', ML: 'ml', L: 'L' };
-const LOGO_PATH = path.join(ASSETS_DIR, 'logo-excellence.png');
+const UNIDAD_TXT: Record<string, string> = {
+  KG: "kg",
+  GR: "g",
+  ML: "ml",
+  L: "L",
+};
+const LOGO_PATH = path.join(ASSETS_DIR, "logo-excellence.png");
 let logoBase64Cache: string | null = null;
 function getLogoBase64(): string {
-  if (!logoBase64Cache) logoBase64Cache = fs.readFileSync(LOGO_PATH).toString('base64');
+  if (!logoBase64Cache)
+    logoBase64Cache = fs.readFileSync(LOGO_PATH).toString("base64");
   return logoBase64Cache;
 }
 
@@ -90,21 +109,24 @@ async function getBrowser(): Promise<Browser> {
 
 function getTemplate(archivo: string): HandlebarsTemplateDelegate {
   const ruta = path.join(TEMPLATES_DIR, archivo);
-  const html = fs.readFileSync(ruta, 'utf-8');
+  const html = fs.readFileSync(ruta, "utf-8");
   return Handlebars.compile(html); // siempre lee el archivo actual, sin cache
 }
 
 function getFondoBase64(archivo: string): string {
   const rutaFondo = FONDOS[archivo] ?? FONDO_DEFAULT;
   if (!fondosCache.has(rutaFondo)) {
-    fondosCache.set(rutaFondo, fs.readFileSync(rutaFondo).toString('base64'));
+    fondosCache.set(rutaFondo, fs.readFileSync(rutaFondo).toString("base64"));
   }
   return fondosCache.get(rutaFondo)!;
 }
 
-export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRenderizar): Promise<string> {
-  const esVolumen = etiqueta.unidadNeta === 'ML' || etiqueta.unidadNeta === 'L';
-  const labelNeto = esVolumen ? 'CANT. NETO' : 'PESO NETO';
+export async function construirHtml(
+  archivo: string,
+  etiqueta: EtiquetaParaRenderizar,
+): Promise<string> {
+  const esVolumen = etiqueta.unidadNeta === "ML" || etiqueta.unidadNeta === "L";
+  const labelNeto = esVolumen ? "CANT. NETO" : "PESO NETO";
 
   const template = getTemplate(archivo);
   const fondoBase64 = getFondoBase64(archivo);
@@ -116,7 +138,7 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
   // queda vacío y el <img> simplemente no muestra nada.
   const qrDataUrl = etiqueta.qrUrl
     ? await QRCode.toDataURL(etiqueta.qrUrl, { margin: 0, width: 320 })
-    : '';
+    : "";
 
   // Corre siempre en la PC Windows de la impresora: Segoe UI real ya está
   // instalada, así que fontBase64 nunca se manda y los .hbs caen solos al
@@ -125,7 +147,7 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
     widthPx: formato.width,
     heightPx: formato.height,
     fondoBase64,
-    fallbackFontFamily: 'Arial, sans-serif',
+    fallbackFontFamily: "Arial, sans-serif",
     producto: etiqueta.producto,
     numeroLote: etiqueta.numeroLote,
     fabricante: etiqueta.fabricante,
@@ -133,10 +155,10 @@ export async function construirHtml(archivo: string, etiqueta: EtiquetaParaRende
     fechaVencimiento: etiqueta.fechaVencimiento,
     pesoBruto: etiqueta.pesoBruto,
     unidadBruto: etiqueta.unidadBruto,
-    pesoNeto: etiqueta.cantidadNeta ?? '—',
+    pesoNeto: etiqueta.cantidadNeta ?? "—",
     unidadNeto: etiqueta.unidadNeta,
     labelNeto,
-    tara: etiqueta.tara ?? '—',
+    tara: etiqueta.tara ?? "—",
     proforma: etiqueta.proforma,
     nfpaSalud: etiqueta.nfpaSalud ?? 0,
     nfpaInflamabilidad: etiqueta.nfpaInflamabilidad ?? 0,
@@ -168,15 +190,15 @@ export async function generarImagen(
       height: formato.height,
       deviceScaleFactor: 1,
     });
-    await page.setContent(html, { waitUntil: 'load' });
-    await page.evaluateHandle('document.fonts.ready');
+    await page.setContent(html, { waitUntil: "load" });
+    await page.evaluateHandle("document.fonts.ready");
     await page.evaluate(() => {
       const w = window as unknown as { ajustarNombreProducto?: () => void };
-      if (typeof w.ajustarNombreProducto === 'function') {
+      if (typeof w.ajustarNombreProducto === "function") {
         w.ajustarNombreProducto();
       }
     });
-    return (await page.screenshot({ type: 'png' })) as Buffer;
+    return (await page.screenshot({ type: "png" })) as Buffer;
   } finally {
     await page.close();
   }
