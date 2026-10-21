@@ -51,7 +51,6 @@ const TEMPLATES_DIR = path.join(ASSETS_DIR, "templates");
 // vacía insertada para el alto nuevo. Reemplazar por el arte real de
 // Illustrator cuando esté listo (mismas dimensiones: 1531x1205px).
 const FONDOS: Record<string, string> = {
-  "con-rombo.hbs": path.join(ASSETS_DIR, "etiqueta-fondo-rombo-85mm.png"),
   "blanco.hbs": path.join(ASSETS_DIR, "etiqueta-fondo-blanco.png"), // original de 60mm
   "estandar-clasico-60.hbs": path.join(
     ASSETS_DIR,
@@ -118,7 +117,12 @@ function getTemplate(archivo: string): HandlebarsTemplateDelegate {
 function getFondoBase64(archivo: string): string {
   const rutaFondo = FONDOS[archivo] ?? FONDO_DEFAULT;
   if (!fondosCache.has(rutaFondo)) {
-    fondosCache.set(rutaFondo, fs.readFileSync(rutaFondo).toString("base64"));
+    // Solo blanco.hbs y estandar-clasico-60.hbs usan fondo de imagen; el resto
+    // dibuja todo en CSS. Si el PNG no existe no debe tumbar la impresión.
+    const base64 = fs.existsSync(rutaFondo)
+      ? fs.readFileSync(rutaFondo).toString("base64")
+      : "";
+    fondosCache.set(rutaFondo, base64);
   }
   return fondosCache.get(rutaFondo)!;
 }
