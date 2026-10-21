@@ -24,3 +24,4 @@ Thumbs.db
 
 # Salida del lanzador de inicio automatico (scripts/ejecutar-agente.ps1)
 logs/
+.claude/
