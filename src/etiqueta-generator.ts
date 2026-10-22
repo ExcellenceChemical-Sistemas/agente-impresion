@@ -21,6 +21,7 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   "estandar.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
     "con-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "con-rombo-sinqr.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "completa-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
     "con-rombo-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
   "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
   "estandar-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
@@ -73,6 +74,9 @@ export interface EtiquetaParaRenderizar {
   unidadNeta: string;
   tara?: string | null;
   proforma: string;
+  proveedor?: string | null;
+  codigo?: string | null;
+  fechaIngreso?: string | null;
   nfpaSalud?: number | null;
   nfpaInflamabilidad?: number | null;
   nfpaReactividad?: number | null;
@@ -166,9 +170,12 @@ export async function construirHtml(
     labelNeto,
     tara: etiqueta.tara ?? "—",
     proforma: etiqueta.proforma,
-    nfpaSalud: etiqueta.nfpaSalud ?? 0,
-    nfpaInflamabilidad: etiqueta.nfpaInflamabilidad ?? 0,
-    nfpaReactividad: etiqueta.nfpaReactividad ?? 0,
+    proveedor: etiqueta.proveedor ?? "—",
+    codigo: etiqueta.codigo ?? "—",
+    fechaIngreso: etiqueta.fechaIngreso ?? "",
+    nfpaSalud: etiqueta.nfpaSalud ?? "",
+    nfpaInflamabilidad: etiqueta.nfpaInflamabilidad ?? "",
+    nfpaReactividad: etiqueta.nfpaReactividad ?? "",
     qrDataUrl,
     coaValidado: !!etiqueta.coaValidado,
     // proforma llega como " " (un espacio) cuando el formulario usa "En
