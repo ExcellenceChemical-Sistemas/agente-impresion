@@ -33,6 +33,9 @@ function aEtiqueta(trabajo: Omit<TrabajoPendiente, 'id'>) {
     nfpaReactividad: trabajo.nfpaReactividad,
     qrUrl: trabajo.qrUrl,
     coaValidado: trabajo.coaValidado,
+    proveedor: trabajo.proveedor,
+    codigo: trabajo.codigo,
+    fechaIngreso: trabajo.fechaIngreso,
   };
 }
 

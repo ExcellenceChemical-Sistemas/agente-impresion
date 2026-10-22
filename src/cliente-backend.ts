@@ -27,6 +27,9 @@ export interface TrabajoPendiente {
   nfpaReactividad: number | null;
   qrUrl: string | null;
   coaValidado: boolean;
+  proveedor: string | null;
+  codigo: string | null;
+  fechaIngreso: string | null;
 }
 
 // Una URL mal puesta (p. ej. la del frontend) suele responder 200 con HTML. Sin
