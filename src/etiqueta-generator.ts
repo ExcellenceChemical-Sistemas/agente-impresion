@@ -22,6 +22,7 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
     "con-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "con-rombo-sinqr.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "completa-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
+  "completa-rombo-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
     "con-rombo-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
   "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
   "estandar-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
