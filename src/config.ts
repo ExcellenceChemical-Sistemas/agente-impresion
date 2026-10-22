@@ -28,5 +28,8 @@ export const CONFIG = {
   // de la impresora: si no existe, imprimir-etiqueta.ps1 falla listando los
   // nombres de papel disponibles en esa máquina.
   paperSizeMuestras: process.env.EPSON_PAPER_SIZE_MUESTRAS ?? 'Mate Brilloso 10x2.5 cm',
+  // Rótulo horizontal 20x10 cm. Debe existir con este nombre exacto como tamaño
+  // de papel personalizado en el driver de Windows de la Epson.
+  paperSize20x10: process.env.EPSON_PAPER_SIZE_20X10 ?? 'Mate Brilloso 20x10 cm',
   pollIntervalMs: Number(process.env.POLL_INTERVAL_MS ?? 3000),
 };

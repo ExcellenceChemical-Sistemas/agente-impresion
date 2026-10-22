@@ -12,7 +12,11 @@ const ALTO_MM_DEFAULT = 85;
 // blanco.hbs es la única plantilla que conserva el formato original de 10x6 cm
 // (60 mm de alto, sin QR/tara); el resto usa 85 mm. Cada formato lleva
 // su propio papel del driver, porque el papel decide el tamaño físico real.
-const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
+// widthMm es opcional: si no se indica se usa el ancho estándar (108 mm).
+const FORMATOS: Record<
+  string,
+  { heightMm: number; paperSize: string; widthMm?: number }
+> = {
   "blanco.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "estandar-clasico-60.hbs": {
     heightMm: 60,
@@ -23,6 +27,12 @@ const FORMATOS: Record<string, { heightMm: number; paperSize: string }> = {
   "con-rombo-sinqr.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "completa-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "completa-rombo-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
+  // Rótulo horizontal 20x10 cm: imagen de 208x100 mm (2948x1417 px a 360 dpi).
+  "completa-rombo-20x10.hbs": {
+    heightMm: 100,
+    widthMm: 208,
+    paperSize: CONFIG.paperSize20x10,
+  },
     "con-rombo-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
   "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
   "estandar-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
@@ -39,7 +49,8 @@ export function formatoDe(archivo: string) {
   return {
     paperSize: f.paperSize,
     width: Math.round(
-      (ETIQUETA_LABEL_CONFIG.widthMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi,
+      ((f.widthMm ?? ETIQUETA_LABEL_CONFIG.widthMm) / 25.4) *
+        ETIQUETA_LABEL_CONFIG.dpi,
     ),
     height: Math.round((f.heightMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi),
   };
