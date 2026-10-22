@@ -4,7 +4,7 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      /* Completa con rombo 20x10 horizontal (20,8 x 10 cm, 2948x1417 px a 360 dpi). HTML/CSS puro, solo px. Margenes de seguridad: la impresora corta el borde superior y el derecho. */
+      /* Completa con rombo 20x10 horizontal (20,8 x 10,8 cm, 2948x1531 px a 360 dpi; se imprime girado 90 grados). HTML/CSS puro, solo px. Margenes de seguridad: la impresora corta el borde superior y el derecho. */
       body {
         width: {{widthPx}}px;
         height: {{heightPx}}px;
@@ -37,10 +37,10 @@
     <div class='etiqueta'>
     <div class='esc'>
       <div class='marco'></div>
-      <img class='a lg' style='left:114px; top:96px; width:840px' src='data:image/png;base64,{{{logoBase64}}}' />
-      <div class='a k' style='left:1090px; top:104px; font-size:42px'>PRODUCTO</div>
-      <div class='a titulo' id='producto' style='left:1090px; top:160px; width:1330px; height:260px; font-size:150px'>{{producto}}</div>
-      <svg class='a rombo' style='left:2530px; top:84px; width:310px; height:310px' viewBox='0 0 200 200'>
+      <img class='a lg' style='left:114px; top:110px; width:840px' src='data:image/png;base64,{{{logoBase64}}}' />
+      <div class='a k' style='left:1090px; top:118px; font-size:42px'>PRODUCTO</div>
+      <div class='a titulo' id='producto' style='left:1090px; top:175px; width:1330px; height:260px; font-size:150px'>{{producto}}</div>
+      <svg class='a rombo' style='left:2530px; top:98px; width:310px; height:310px' viewBox='0 0 200 200'>
         <polygon points='100,4 148,52 100,100 52,52' fill='#D62828' stroke='#111' stroke-width='3'/>
         <polygon points='52,52 100,100 52,148 4,100' fill='#1E6FD9' stroke='#111' stroke-width='3'/>
         <polygon points='148,52 196,100 148,148 100,100' fill='#F5B800' stroke='#111' stroke-width='3'/>
@@ -49,22 +49,22 @@
         <text x='54' y='102' fill='#fff'>{{nfpaSalud}}</text>
         <text x='146' y='102' fill='#111'>{{nfpaReactividad}}</text>
       </svg>
-      <div class='a' style='left:100px; right:96px; top:446px; height:5px; background:#F4610B'></div>
-      <div class='a' style='left:114px; top:490px; width:520px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
-      <div class='a' style='left:664px; top:490px; width:520px'><div class='k'>FABRICANTE</div><div class='v'>{{fabricante}}</div></div>
-      <div class='a' style='left:1214px; top:490px; width:520px'><div class='k'>PROVEEDOR</div><div class='v'>{{proveedor}}</div></div>
-      <div class='a' style='left:1764px; top:490px; width:520px'><div class='k'>CÓDIGO</div><div class='v'>{{codigo}}</div></div>
-      <div class='a' style='left:2314px; top:490px; width:520px'><div class='k'>F. INGRESO</div><div class='v'>{{#if fechaIngreso}}{{fechaIngreso}}{{else}}<span class='linea'></span>{{/if}}</div></div>
-      <div class='a' style='left:114px; top:730px; width:520px'><div class='k'>F. FABRICACIÓN</div><div class='v'>{{fechaFabricacion}}</div></div>
-      <div class='a' style='left:664px; top:730px; width:520px'><div class='k'>F. VENCIMIENTO</div><div class='v'>{{fechaVencimiento}}</div></div>
-      <div class='a' style='left:1214px; top:730px; width:520px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
-      <div class='a' style='left:1764px; top:730px; width:520px'><div class='k'>TARA</div><div class='v'>{{tara}} {{unidadBrutoLabel}}</div></div>
-      <div class='a' style='left:2314px; top:730px; width:520px'><div class='k'>{{labelNeto}}</div><div class='v'>{{pesoNeto}} {{unidadNetoLabel}}</div></div>
-      <div class='a' style='left:100px; right:96px; top:950px; height:3px; background:#C9CDD6'></div>
-      <div class='a ct' style='left:114px; top:1020px; width:820px; height:66px; font-size:48px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg><span>943 598 055</span></div>
-            <div class='a ct' style='left:114px; top:1108px; width:920px; height:66px; font-size:48px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='16' x='2' y='4' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg><span>ventas@excellencechemical.com</span></div>
-            <div class='a' style='left:1400px; top:1040px; display:flex; align-items:center; gap:28px'><svg class='check' style='width:150px;height:150px' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='#2E7D32'/><polyline points='27,52 43,68 73,34' fill='none' stroke='#fff' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg><span class='apr' style='font-size:74px'>APROBADO</span></div>
-      <div class='a qr' style='left:2480px; top:985px; width:360px; height:360px'>{{#if coaValidado}}{{#if qrDataUrl}}<img src='{{{qrDataUrl}}}' />{{/if}}{{/if}}</div>
+      <div class='a' style='left:100px; right:96px; top:466px; height:5px; background:#F4610B'></div>
+      <div class='a' style='left:114px; top:515px; width:520px'><div class='k'>LOTE</div><div class='v'>{{numeroLote}}</div></div>
+      <div class='a' style='left:664px; top:515px; width:520px'><div class='k'>FABRICANTE</div><div class='v'>{{fabricante}}</div></div>
+      <div class='a' style='left:1214px; top:515px; width:520px'><div class='k'>PROVEEDOR</div><div class='v'>{{proveedor}}</div></div>
+      <div class='a' style='left:1764px; top:515px; width:520px'><div class='k'>CÓDIGO</div><div class='v'>{{codigo}}</div></div>
+      <div class='a' style='left:2314px; top:515px; width:520px'><div class='k'>F. INGRESO</div><div class='v'>{{#if fechaIngreso}}{{fechaIngreso}}{{else}}<span class='linea'></span>{{/if}}</div></div>
+      <div class='a' style='left:114px; top:765px; width:520px'><div class='k'>F. FABRICACIÓN</div><div class='v'>{{fechaFabricacion}}</div></div>
+      <div class='a' style='left:664px; top:765px; width:520px'><div class='k'>F. VENCIMIENTO</div><div class='v'>{{fechaVencimiento}}</div></div>
+      <div class='a' style='left:1214px; top:765px; width:520px'><div class='k'>PESO BRUTO</div><div class='v'>{{pesoBruto}} {{unidadBrutoLabel}}</div></div>
+      <div class='a' style='left:1764px; top:765px; width:520px'><div class='k'>TARA</div><div class='v'>{{tara}} {{unidadBrutoLabel}}</div></div>
+      <div class='a' style='left:2314px; top:765px; width:520px'><div class='k'>{{labelNeto}}</div><div class='v'>{{pesoNeto}} {{unidadNetoLabel}}</div></div>
+      <div class='a' style='left:100px; right:96px; top:1020px; height:3px; background:#C9CDD6'></div>
+      <div class='a ct' style='left:114px; top:1090px; width:820px; height:66px; font-size:48px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'/></svg><span>943 598 055</span></div>
+            <div class='a ct' style='left:114px; top:1180px; width:920px; height:66px; font-size:48px'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect width='20' height='16' x='2' y='4' rx='2'/><path d='m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'/></svg><span>ventas@excellencechemical.com</span></div>
+            <div class='a' style='left:1400px; top:1110px; display:flex; align-items:center; gap:28px'><svg class='check' style='width:150px;height:150px' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='#2E7D32'/><polyline points='27,52 43,68 73,34' fill='none' stroke='#fff' stroke-width='9' stroke-linecap='round' stroke-linejoin='round'/></svg><span class='apr' style='font-size:74px'>APROBADO</span></div>
+      <div class='a qr' style='left:2460px; top:1055px; width:380px; height:380px'>{{#if coaValidado}}{{#if qrDataUrl}}<img src='{{{qrDataUrl}}}' />{{/if}}{{/if}}</div>
     </div>
     </div>
 

@@ -15,7 +15,7 @@ const ALTO_MM_DEFAULT = 85;
 // widthMm es opcional: si no se indica se usa el ancho estándar (108 mm).
 const FORMATOS: Record<
   string,
-  { heightMm: number; paperSize: string; widthMm?: number }
+  { heightMm: number; paperSize: string; widthMm?: number; rotarGrados?: number }
 > = {
   "blanco.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "estandar-clasico-60.hbs": {
@@ -27,11 +27,14 @@ const FORMATOS: Record<
   "con-rombo-sinqr.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "completa-rombo.hbs": { heightMm: 60, paperSize: CONFIG.paperSizeBlanco },
   "completa-rombo-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
-  // Rótulo horizontal 20x10 cm: imagen de 208x100 mm (2948x1417 px a 360 dpi).
+  // Rótulo horizontal 20x10 cm. La Epson solo acepta 108 mm de ancho de rollo,
+  // así que el rótulo se dibuja de 208x108 mm (2948x1531 px a 360 dpi) y se
+  // imprime girado 90°: el papel "Mate Brilloso 20x10 cm" mide 108 x 208 mm.
   "completa-rombo-20x10.hbs": {
-    heightMm: 100,
+    heightMm: 108,
     widthMm: 208,
     paperSize: CONFIG.paperSize20x10,
+    rotarGrados: CONFIG.rotarGrados20x10,
   },
     "con-rombo-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
   "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
@@ -46,14 +49,33 @@ export function formatoDe(archivo: string) {
     heightMm: ALTO_MM_DEFAULT,
     paperSize: CONFIG.paperSize,
   };
+  const width = Math.round(
+    ((f.widthMm ?? ETIQUETA_LABEL_CONFIG.widthMm) / 25.4) *
+      ETIQUETA_LABEL_CONFIG.dpi,
+  );
+  const height = Math.round((f.heightMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi);
+  const rotarGrados = f.rotarGrados ?? 0;
   return {
     paperSize: f.paperSize,
-    width: Math.round(
-      ((f.widthMm ?? ETIQUETA_LABEL_CONFIG.widthMm) / 25.4) *
-        ETIQUETA_LABEL_CONFIG.dpi,
-    ),
-    height: Math.round((f.heightMm / 25.4) * ETIQUETA_LABEL_CONFIG.dpi),
+    // Tamaño con el que se dibuja el .hbs
+    width,
+    height,
+    rotarGrados,
+    // Tamaño de la imagen final que se imprime (intercambiado si va girada)
+    salidaWidth: rotarGrados ? height : width,
+    salidaHeight: rotarGrados ? width : height,
   };
+}
+
+// Gira la página 90° (para rótulos cuyo lado largo va a lo largo del papel).
+function rotarHtml(html: string, formato: ReturnType<typeof formatoDe>): string {
+  if (!formato.rotarGrados) return html;
+  const transform =
+    formato.rotarGrados > 0
+      ? `translateX(${formato.height}px) rotate(90deg)`
+      : `translateY(${formato.width}px) rotate(-90deg)`;
+  const css = `<style>html{width:${formato.salidaWidth}px;height:${formato.salidaHeight}px;overflow:hidden}body{transform-origin:0 0;transform:${transform}}</style>`;
+  return html.replace("</head>", `${css}</head>`);
 }
 
 const ASSETS_DIR = path.join(__dirname, "..", "assets");
@@ -165,7 +187,7 @@ export async function construirHtml(
   // Corre siempre en la PC Windows de la impresora: Segoe UI real ya está
   // instalada, así que fontBase64 nunca se manda y los .hbs caen solos al
   // 'Segoe UI' real por nombre (nunca más hace falta Selawik).
-  return template({
+  const html = template({
     widthPx: formato.width,
     heightPx: formato.height,
     fondoBase64,
@@ -199,6 +221,7 @@ export async function construirHtml(
     unidadNetoLabel: UNIDAD_TXT[etiqueta.unidadNeta] ?? etiqueta.unidadNeta,
     unidadBrutoLabel: UNIDAD_TXT[etiqueta.unidadBruto] ?? etiqueta.unidadBruto,
   });
+  return rotarHtml(html, formato);
 }
 
 export async function generarImagen(
@@ -211,8 +234,8 @@ export async function generarImagen(
   const page = await b.newPage();
   try {
     await page.setViewport({
-      width: formato.width,
-      height: formato.height,
+      width: formato.salidaWidth,
+      height: formato.salidaHeight,
       deviceScaleFactor: 1,
     });
     await page.setContent(html, { waitUntil: "load" });

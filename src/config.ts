@@ -31,5 +31,9 @@ export const CONFIG = {
   // Rótulo horizontal 20x10 cm. Debe existir con este nombre exacto como tamaño
   // de papel personalizado en el driver de Windows de la Epson.
   paperSize20x10: process.env.EPSON_PAPER_SIZE_20X10 ?? 'Mate Brilloso 20x10 cm',
+  // Sentido de giro del rótulo 20x10 (90 = horario, -90 = antihorario). La Epson
+  // solo acepta 108 mm de ancho, así que los 20 cm van a lo largo del papel y la
+  // imagen se imprime girada. Si sale de cabeza en el envase, cambia a -90.
+  rotarGrados20x10: Number(process.env.EPSON_ROTAR_20X10 ?? 90),
   pollIntervalMs: Number(process.env.POLL_INTERVAL_MS ?? 3000),
 };
