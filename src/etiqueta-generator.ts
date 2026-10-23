@@ -36,6 +36,13 @@ const FORMATOS: Record<
     paperSize: CONFIG.paperSize20x10,
     rotarGrados: CONFIG.rotarGrados20x10,
   },
+  // Estándar sin rombo ni QR en 20x10 (mismo papel y giro que el anterior).
+  "estandar-sinqr-20x10.hbs": {
+    heightMm: 108,
+    widthMm: 208,
+    paperSize: CONFIG.paperSize20x10,
+    rotarGrados: CONFIG.rotarGrados20x10,
+  },
     "con-rombo-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
   "muestras.hbs": { heightMm: 25, paperSize: CONFIG.paperSizeMuestras },
   "estandar-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
