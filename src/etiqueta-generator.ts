@@ -51,11 +51,21 @@ const FORMATOS: Record<
   "estandar-sinqr-85.hbs": { heightMm: 85, paperSize: CONFIG.paperSize },
 };
 
+// Cualquier plantilla cuyo nombre contenga "20x10" usa el mismo papel y giro
+// que el rótulo, aunque no esté listada arriba en FORMATOS.
+const FORMATO_20X10 = {
+  heightMm: 108,
+  widthMm: 208,
+  paperSize: CONFIG.paperSize20x10,
+  rotarGrados: CONFIG.rotarGrados20x10,
+};
+
 export function formatoDe(archivo: string) {
-  const f = FORMATOS[archivo] ?? {
-    heightMm: ALTO_MM_DEFAULT,
-    paperSize: CONFIG.paperSize,
-  };
+  const f =
+    FORMATOS[archivo] ??
+    (/20x10/i.test(archivo)
+      ? FORMATO_20X10
+      : { heightMm: ALTO_MM_DEFAULT, paperSize: CONFIG.paperSize });
   const width = Math.round(
     ((f.widthMm ?? ETIQUETA_LABEL_CONFIG.widthMm) / 25.4) *
       ETIQUETA_LABEL_CONFIG.dpi,
